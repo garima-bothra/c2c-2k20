@@ -1,0 +1,6 @@
+framework module ChirpSDK {
+  umbrella header "ChirpSDK.h"
+
+  export *
+  module * { export * }
+}
