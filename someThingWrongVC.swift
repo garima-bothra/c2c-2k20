@@ -31,27 +31,13 @@ class someThingWrongVC: UIViewController {
     }
     
     @IBAction func adminBypassAdd(_ sender: Any) {
-        if(adminPassword.text == "devanshi") {
+        if(adminPassword.text == "syklops") {
             tokenRecieved = BypassKey.text ?? ""
-            print(tokenRecieved)
-         let alerts = validateToken()
-         if(alerts == "ok") || (alerts == "redeemed"){
-            let alert = UIAlertController(title: "Response", message: response, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            //self.performSegue(withIdentifier: "goToFood", sender: Any.self)
-         }
-         else if(alerts == "callget"){
-            let alert = UIAlertController(title: "Response", message: response, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            //self.performSegue(withIdentifier: "goToFood", sender: Any.self)
-            }
+            validateToken(viewController: self)
         }
-        else
-        {
-               let alert = UIAlertController(title: "Response", message: "Invalid admin!", preferredStyle: UIAlertController.Style.alert)
-               alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        else{
+            let alert = UIAlertController(title: "Error", message: "Incorrect Admin Bypass Password", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }

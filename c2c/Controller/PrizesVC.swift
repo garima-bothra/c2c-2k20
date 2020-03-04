@@ -56,7 +56,6 @@ class PrizesVC: UIViewController {
         menuIcon.addGestureRecognizer(tapGesture)
         prizeLabel.textColor = .white
         bottomView.backgroundColor = UIColor.acmGreen()
-    //    let ges = UITapGestureRecognizer(target: self, action: #selector(tap))
     }
    
     @objc func handleTap() {

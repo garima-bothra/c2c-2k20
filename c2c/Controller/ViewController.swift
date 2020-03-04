@@ -22,7 +22,6 @@ class ViewController: UIViewController {
     }    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //get()
         emailTextField.layer.borderWidth = 1.0
         emailTextField.layer.borderColor = UIColor(red: 57/255, green: 199/257, blue: 157/255, alpha: 1).cgColor
         emailTextField.textColor = .white
@@ -69,47 +68,39 @@ class ViewController: UIViewController {
         var isLogged = false
         if emailTextField.text != "",passwordTextField.text != ""{
                   let email = emailTextField.text!
-                             let password = passwordTextField.text!
-                             Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-                                if (error != nil) {
-                                    let message = handleError(error: error!)
-                                    let alert = UIAlertController(title: "Login Failed", message: message, preferredStyle: UIAlertController.Style.alert)
-                                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-                                    guard let strongSelf = self else { return }
+                  let password = passwordTextField.text!
+                  Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+                       if (error != nil) {
+                            let message = handleError(error: error!)
+                            let alert = UIAlertController(title: "Login Failed", message: message, preferredStyle: UIAlertController.Style.alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                            guard let strongSelf = self else { return }
                                     strongSelf.present(alert, animated: true, completion: nil)
                                 }
-                                else{
+                            else{
                                 guard let user = Auth.auth().currentUser else { return }
-                                    user.reload { (error) in
-                                        var message = String()
-                                         guard let strongSelf = self else { return }
-                                        switch user.isEmailVerified {
-                                           case true:
-                                           userDefaults.setValue(true, forKey: "status")
-                                           let current_userid = Auth.auth().currentUser?.uid
-                                           userDefaults.setValue(current_userid, forKey: "current")
-                                           if(current_userid != nil){
-                                            Database.database().reference().child("users").child(current_userid!).setValue(email)
-                                           }
-                                           isLogged = true
-                                           strongSelf.performSegue(withIdentifier:"loginToAgenda" , sender: Any.self)
-                                           case false:
-                                           
-                                           let alert = UIAlertController(title: "Login Unsuccessful", message: "You do not seem to have verified your email. Do you want us to send verification email again?", preferredStyle: UIAlertController.Style.alert)
-                                           alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: strongSelf.sendVerification))
-                                           alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
-                                           strongSelf.present(alert, animated: true, completion: nil)
-                                           
-                                           }
+                                user.reload { (error) in
+                                var message = String()
+                                guard let strongSelf = self else { return }
+                                switch user.isEmailVerified {
+                                    case true:
+                                    userDefaults.setValue(true, forKey: "status")
+                                    let current_userid = Auth.auth().currentUser?.uid
+                                    userDefaults.setValue(current_userid, forKey: "current")
+                                    if(current_userid != nil){
+                                    Database.database().reference().child("users").child(current_userid!).setValue(email)
                                     }
+                                    isLogged = true
+                                    strongSelf.performSegue(withIdentifier:"loginToAgenda" , sender: Any.self)
+                                   case false:
+                                    let alert = UIAlertController(title: "Login Unsuccessful", message: "You do not seem to have verified your email. Do you want us to send verification email again?", preferredStyle: UIAlertController.Style.alert)
+                                    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: strongSelf.sendVerification))
+                                    alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
+                                    strongSelf.present(alert, animated: true, completion: nil)
+                                   }
+                                   }
                                 }
                              }
-                                 
-                                 if isLogged == false{
-                                    
-                                    
-                                 }
-       
     }
     }
     
@@ -143,9 +134,8 @@ extension UIColor{
     class func acmGreen() -> UIColor{
         return UIColor(red: 57/255, green: 199/257, blue: 157/255, alpha: 1)
     }
-    
-    
 }
+
 func handleError(error: Error)-> String
 {
     var response = String()
@@ -153,22 +143,30 @@ func handleError(error: Error)-> String
     switch errorAuthStatus {
     case .wrongPassword:
         response = "Wrong password"
+        return response
     case .invalidEmail:
         response = "Invalid Email"
+        return response
     case .operationNotAllowed:
         response = "Operation not allowed"
+        return response
     case .userDisabled:
         response = "User disabled"
+        return response
     case .userNotFound:
         response = "User not found"
+        return response
     case .tooManyRequests:
         response = "Too many requests"
+        return response
     case .emailAlreadyInUse:
         response = "Email already in use"
+        return response
     case .weakPassword:
         response = "Weak password! Try again with a strong password"
+        return response
     default:
         response = "Invalid credentials"
-    }
-    return response
+        return response
+}
 }
