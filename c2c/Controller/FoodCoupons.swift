@@ -130,6 +130,7 @@ class FoodCouponsVC: UIViewController,UITableViewDataSource,UITableViewDelegate 
             (data : Data?, channel: UInt?) -> () in
             if data != nil {
                 tokenRecieved = String(data: data!, encoding: .ascii) ?? ""
+                self.chirp.stop()
                 self.chirpStatusLabel.text = ""
                 validateToken(viewController: self)
                 }

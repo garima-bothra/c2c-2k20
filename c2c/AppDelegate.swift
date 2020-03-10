@@ -62,21 +62,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
             print(error)
             return
           }
-            let email = Auth.auth().currentUser?.email
-            let uid = Auth.auth().currentUser?.uid
-            let viewController = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "Agenda") as! UIViewController
-                        if( uid != nil){
-                            Database.database().reference().child("users").child(uid!).setValue(email)
-                            self.window?.rootViewController = viewController
-                        }
-                if (self.window?.rootViewController != viewController){
-                    let alert = UIAlertController(title: "Sign Up Fail", message: "Contact an organizer. You do not seem to be registered.", preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-                        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-                }
+           let email = Auth.auth().currentUser?.email
+                   let uid = Auth.auth().currentUser?.uid
+                   activityindicator.center = (self.window?.rootViewController?.view.center)!
+                   activityindicator.hidesWhenStopped = true
+                   activityindicator.style = UIActivityIndicatorView.Style.whiteLarge
+                    self.window?.rootViewController?.view.addSubview(activityindicator)
+                   activityindicator.startAnimating()
+                   var regmail : String = String()
+                   let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                   var viewController = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "Agenda") as! UIViewController
+                   let refRegistered = Database.database().reference().child("registeredEmails")
+//            refRegistered.queryLimited(toLast: 1).observeSingleEvent(of: .value){
+//                (myDataSnap) in
+//                let value = myDataSnap.value as? DataSnapshot
+//                print("LASTTT")
+//                print(value)
+            
+            refRegistered.observe(.value) { (snapshot) in
+                    
+                       for child in snapshot.children.allObjects as! [DataSnapshot] {
+                         //  print(child.value)
+                           regmail = child.value! as! String
+                           if(regmail == email){
+                               userDefaults.setValue(uid, forKey: "current")
+                               userDefaults.setValue(true, forKey: "status")
+                   let viewController = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "Agenda") as! UIViewController
+                               if( uid != nil){
+                                   Database.database().reference().child("users").child(uid!).setValue(email)
+                                activityindicator.stopAnimating()
+                                   self.window?.rootViewController = viewController
+                               }
+                               break
+                           }
+                       }
+                 userStatus =
+                if ( UserDefaults.standard.string(forKey: "status") == "false"){
+                           let alert = UIAlertController(title: "Sign Up Fail", message: "Contact an organizer. You do not seem to be registered.", preferredStyle: UIAlertController.Style.alert)
+                        activityindicator.stopAnimating()
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                            self.window?.rootViewController?.view
+                            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+                       }
 
-        }
-    }
+                    
+                   }
+
+               }
+           }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
