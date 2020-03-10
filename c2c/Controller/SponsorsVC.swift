@@ -6,7 +6,6 @@ class SponsorsVC: UIViewController {
 
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var menuIcon: UIImageView!
- //   @IBOutlet weak var notification: UIImageView!
     @IBOutlet weak var contentTableView: UITableView!
     
     var imageArr = [URL]()
@@ -26,7 +25,6 @@ class SponsorsVC: UIViewController {
         contentTableView.dataSource = self
         contentTableView.backgroundColor = .clear
         contentTableView.separatorStyle = .none
-   //     let ges = UITapGestureRecognizer(target: self, action: #selector(tap))
         get()
     }
   
