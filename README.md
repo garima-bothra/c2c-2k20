@@ -33,7 +33,7 @@ This is a one-stop app for all the needs for the participants during the app. Th
  
  ## How to use  ##
  <br>You can sign up to the app using Google SignIn or Sign up with your email. If you sign up with email, you will have to confirm your email address using the link that will be sent to you via email. Once signed in, you will see the timeline of the event. Keep checking the timeline in case of live updates. To the bottom of the screen there will be button, when clicked will show you all other options,i.e. FAQs, About, Food Coupons, Prizes, Sponsors and Log Out. </br>
- For Food Coupons you will have to click on the microphone button to redeem your coupon. You can redeem only one coupon for one meal. Once redeemed you will be able to see the redeemed status there itself. Enjoy your food now. 🙂
+ For Food Coupons you will have to click on the microphone button to redeem your coupon. You can redeem only one coupon for one meal. Once redeemed you will be able to see the redeemed status there itself. If your device is unable to redeem coupon by using the microphone contact an organizer to help you with the Something Wrong button at the bottom. Enjoy your food now. 🙂
  
  ## Libraries used in the project 📥 ##
  * UIKit
